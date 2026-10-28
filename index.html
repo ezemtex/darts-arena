@@ -13,34 +13,34 @@
  #scores{grid-column:1;grid-row:2;display:flex!important;flex-direction:column;gap:7px!important;min-height:0;overflow:auto;margin:0!important}
  #scores>.panel{flex:1;min-height:0;margin:0!important;padding:8px 12px;display:flex;flex-direction:column;justify-content:center}
  #scores .score{font-size:clamp(28px,5vh,48px);margin:3px 0!important}
- #play{grid-column:2;grid-row:2;min-height:0;display:grid;grid-template-columns:minmax(190px,33%) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto auto;gap:6px 12px;align-items:stretch}
- #play>.panel{grid-column:1;grid-row:1/4;margin:0!important;padding:12px;display:flex;flex-direction:column;justify-content:space-between}
+ #play{grid-column:2;grid-row:2;min-height:0;display:grid;grid-template-columns:minmax(190px,33%) minmax(0,1fr);grid-template-rows:58px minmax(0,1fr) 72px 52px;gap:7px 12px;align-items:stretch}
+ #play>.panel{grid-column:1;grid-row:1/3;margin:0!important;padding:12px;display:flex;flex-direction:column;justify-content:space-between}
  #play>.panel .score{font-size:clamp(28px,5vh,46px)}
  #play>.panel #slots{flex-direction:column!important;margin:8px 0!important;gap:5px}
  #play .slot{display:flex;align-items:center;justify-content:space-between;padding:7px;min-height:0}
  #play .slot strong{font-size:19px;margin:0}
  #play>.label{margin:0!important;font-size:10px;align-self:end}
- #play>.label:first-of-type{grid-column:2;grid-row:1}
- #modes{grid-column:2;grid-row:2}
+ #play>.label:first-of-type{display:none}
+ #modes{grid-column:2;grid-row:1;min-height:0}
  #play>.label:nth-of-type(2){display:none}
- #sectors{grid-column:2;grid-row:3;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-template-rows:repeat(4,minmax(0,1fr));min-height:0;gap:5px!important}
+ #sectors{grid-column:2;grid-row:2;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-template-rows:repeat(4,minmax(0,1fr));min-height:0;gap:5px!important}
  #sectors .sector{min-height:0;font-size:clamp(16px,2.7vh,26px);border-radius:8px}
- #special{grid-column:1;grid-row:4/6;margin:0!important;align-self:stretch;flex-direction:column;gap:5px}
- #special button{min-height:0;flex:1!important;font-size:11px!important}
- #confirm{grid-column:2;grid-row:4;min-height:44px;padding:8px;font-size:14px}
- #edits{grid-column:2;grid-row:5;margin:0!important;gap:6px}
+ #special{grid-column:1;grid-row:3/5;margin:0!important;align-self:stretch;flex-direction:column;gap:5px}
+ #special button{min-height:0;flex:1!important;font-size:clamp(13px,1.5vw,19px)!important;font-weight:900!important;border-width:2px!important;padding:4px!important}
+ #confirm{grid-column:2;grid-row:3;min-height:44px;padding:8px;font-size:14px}
+ #edits{grid-column:2;grid-row:4;margin:0!important;gap:6px}
  #edits button{padding:7px;font-size:11px}
  #play>p{display:none}
  main:has(#scores)>#undo{grid-column:1/-1;grid-row:3;margin:0!important;padding:8px}
- .choice.mode{padding:7px 3px;font-size:11px}
+ .choice.mode{padding:8px 5px;font-size:clamp(13px,1.4vw,18px);font-weight:900;border-width:2px}
  main:not(:has(#scores)){max-width:820px;margin:auto;overflow:auto;padding:18px}
  main:not(:has(#scores)) .panel{margin-bottom:8px}
 }
 @media (orientation:landscape) and (min-width:800px) and (max-height:650px){
  .top{flex-basis:48px}.logo{font-size:18px}main{padding-top:6px;padding-bottom:6px}
  main:has(#scores){grid-template-rows:35px minmax(0,1fr) 34px;gap:5px 10px}
- #play{gap:4px 8px}#play>.panel{padding:7px}#play .slot{padding:3px 6px}#scores>.panel{padding:5px 9px}
- #sectors{gap:3px!important}#confirm{min-height:36px}#special button{font-size:10px!important}
+ #play{gap:4px 8px;grid-template-rows:48px minmax(0,1fr) 58px 40px}#play>.panel{padding:7px}#play .slot{padding:3px 6px}#scores>.panel{padding:5px 9px}
+ #sectors{gap:3px!important}#confirm{min-height:36px}#special button{font-size:13px!important}
 }
 @media (orientation:portrait) and (min-width:700px){main{max-width:760px}}
 </style></head><body><header class="top"><div><div class="logo">🎯 DARTS <span class="gold">ARENA</span></div><div class="small muted">SCOREKEEPER</div></div><span class="small gold" id="state">SETUP</span></header><main id="app"></main>
@@ -66,12 +66,12 @@ names.forEach((n,i)=>{let d=document.createElement('div');d.className='panel'+(i
 app.querySelector('#new').onclick=()=>{if(confirm('Vuoi iniziare una nuova partita?'))setup()};
 app.querySelector('#undo').disabled=!history.length;app.querySelector('#undo').onclick=()=>{let h=history.pop();if(h){scores=h.scores;turn=h.turn;winner=-1;hits=[];mult=1;game()}};
 let p=app.querySelector('#play');if(winner>=0){p.innerHTML='<div class="panel winner">🏆<h2>'+esc(names[winner])+' VINCE!</h2><button class="primary" id="again">RIVINCITA</button></div>';p.querySelector('#again').onclick=()=>{scores=Array(count).fill(start);turn=0;winner=-1;history=[];hits=[];game()};return}
-p.innerHTML='<div class="panel"><div class="row" style="justify-content:space-between;align-items:center"><div><div class="small muted">AL TIRO</div><h2 class="gold" style="margin:5px 0">'+esc(names[turn])+'</h2></div><div style="text-align:right"><div class="small muted">TOTALE TURNO</div><div class="score gold">'+t+'</div></div></div><div class="row" id="slots" style="margin-top:12px"></div><div class="row" style="justify-content:space-between;margin-top:14px"><span class="muted">Punti rimanenti</span><strong id="remain">'+(bust?'BUST':remaining)+'</strong></div></div><div class="small label" style="text-align:center">MOLTIPLICATORE</div><div class="row" id="modes"></div><div class="small label" style="text-align:center">TOCCA IL NUMERO COLPITO</div><div id="sectors" class="grid" style="grid-template-columns:repeat(5,minmax(0,1fr));gap:7px"></div><div class="row" id="special" style="margin:12px 0"></div><button id="confirm" class="primary"></button><div class="row" id="edits" style="margin-top:10px"></div><p class="muted" style="text-align:center;font-size:12px">Massimo 3 freccette per turno</p>';
+p.innerHTML='<div class="panel"><div class="row" style="justify-content:space-between;align-items:center"><div><div class="small muted">AL TIRO</div><h2 class="gold" style="margin:5px 0">'+esc(names[turn])+'</h2></div><div style="text-align:right"><div class="small muted">TOTALE TURNO</div><div class="score gold">'+t+'</div></div></div><div class="row" id="slots" style="margin-top:12px"></div><div class="row" style="justify-content:space-between;margin-top:14px"><span class="muted">Punti rimanenti</span><strong id="remain">'+(bust?'BUST':remaining)+'</strong></div></div><div class="small label" style="text-align:center">MOLTIPLICATORE</div><div class="row" id="modes"></div><div id="sectors" class="grid" style="grid-template-columns:repeat(5,minmax(0,1fr));gap:7px"></div><div class="row" id="special" style="margin:12px 0"></div><button id="confirm" class="primary"></button><div class="row" id="edits" style="margin-top:10px"></div><p class="muted" style="text-align:center;font-size:12px">Massimo 3 freccette per turno</p>';
 p.querySelector('#remain').style.color=bust?'#ff8b8b':'#89e6ad';
 for(let i=0;i<3;i++){let h=hits[i],d=document.createElement('div');d.className='slot';d.innerHTML='<div class="small muted">FRECCETTA '+(i+1)+'</div><strong>'+(h?(h.n===25?(h.m===2?'BULL':'25'):(h.m===3?'T':h.m===2?'D':'')+h.n):'—')+'</strong><div class="gold" style="font-size:12px">'+(h?'+'+h.value:'&nbsp;')+'</div>';p.querySelector('#slots').append(d)}
 [['SINGOLO',1],['DOPPIO ×2',2],['TRIPLO ×3',3]].forEach(([label,m])=>p.querySelector('#modes').append(button(label,()=>{mult=m;game()},'choice mode'+(mult===m?' selected':''))));
 const red=new Set([20,18,13,10,2,3,7,8,14,12]);for(let n=1;n<=20;n++){let b=button(n,()=>add(n,mult),'sector');b.style.background=red.has(n)?'#b9323c':'#ead9b8';b.style.color=red.has(n)?'#fff':'#24261d';b.disabled=hits.length===3;p.querySelector('#sectors').append(b)}
-[['OUTER BULL 25',()=>add(25,1),'#208454'],['BULLSEYE 50',()=>add(25,2),'#bd333e'],['MISS 0',()=>add(0,1),'#3b4940']].forEach(([label,fn,color])=>{let b=button(label,fn,'sector');b.style.cssText='flex:1;min-width:0;background:'+color+';color:white;font-size:12px;padding:8px 2px';b.disabled=hits.length===3;p.querySelector('#special').append(b)});
+[['OUTER BULL 25',()=>add(25,1),'#208454'],['BULLSEYE 50',()=>add(25,2),'#bd333e'],['MISS 0',()=>add(0,1),'#3b4940']].forEach(([label,fn,color])=>{let b=button(label,fn,'sector');b.style.cssText='flex:1;min-width:0;background:'+color+';color:white;padding:8px 4px';b.disabled=hits.length===3;p.querySelector('#special').append(b)});
 p.querySelector('#confirm').textContent=bust?'BUST — PASSA TURNO →':remaining===0?'🏆 CHIUDI PARTITA →':'CONFERMA '+t+' PUNTI →';
 p.querySelector('#confirm').onclick=()=>{history.push({scores:[...scores],turn});if(!bust){scores[turn]=remaining;if(remaining===0)winner=turn}if(winner<0)turn=(turn+1)%count;hits=[];mult=1;game()};
 let rem=button('⌫ ULTIMA FRECCETTA',()=>{hits.pop();game()});rem.style.flex='1';let clear=button('✕ AZZERA TIRO',()=>{hits=[];game()});clear.style.flex='1';p.querySelector('#edits').append(rem,clear)}
