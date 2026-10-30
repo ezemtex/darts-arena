@@ -81,4 +81,4 @@ function restoreState(){try{let s=JSON.parse(localStorage.getItem('darts-arena-v
 document.addEventListener('click',()=>setTimeout(saveState,0),true);
 document.addEventListener('input',()=>setTimeout(saveState,0),true);
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-</script><script src="./profiles.js"></script><script src="./three.min.js"></script><script src="./cinema.js"></script></body></html>
+</script><script src="./profiles.js"></script><script src="./duels.js"></script><script src="./three.min.js"></script><script src="./cinema.js"></script></body></html>
