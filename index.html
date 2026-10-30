@@ -80,7 +80,5 @@ function saveState(){try{localStorage.setItem('darts-arena-v1',JSON.stringify({p
 function restoreState(){try{let s=JSON.parse(localStorage.getItem('darts-arena-v1'));if(!s)return false;count=s.count||2;start=s.start||501;rule=s.rule||'straight';names=Array.isArray(s.names)?s.names:[];scores=Array.isArray(s.scores)?s.scores:[];turn=s.turn||0;hits=Array.isArray(s.hits)?s.hits:[];mult=s.mult||1;history=Array.isArray(s.history)?s.history:[];winner=typeof s.winner==='number'?s.winner:-1;custom=s.custom||'';if(s.page===2&&scores.length===count){game();return true}if(s.page===1){nameScreen();return true}return false}catch(e){return false}}
 document.addEventListener('click',()=>setTimeout(saveState,0),true);
 document.addEventListener('input',()=>setTimeout(saveState,0),true);
-window.addEventListener('pagehide',saveState);
-if(!restoreState())setup();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-</script></body></html>
+</script><script src="./profiles.js"></script></body></html>
